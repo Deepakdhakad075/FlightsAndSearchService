@@ -1,5 +1,6 @@
 const  {AirportService} = require('../services/index');
 const airportService = new AirportService();
+const {SuccessCodes,ClientErrorCodes} = require('../utils/error-codes');
 
 class AirportController {
  
@@ -7,7 +8,7 @@ class AirportController {
         try{
            const data = req.body;
            const airport = await airportService.create(data);
-           return res.status(201).json({
+           return res.status(SuccessCodes.CREATED).json({
                 success: true,
                 message: "Airport created successfully",
                 data: airport
@@ -28,12 +29,12 @@ class AirportController {
             const airportId = req.params.id;
             const airport = await airportService.get(airportId);
             if (!airport) {
-                return res.status(404).json({
+                return res.status(ClientErrorCodes.NOT_FOUND).json({
                     success: false,
                     message: "Airport not found"
                 });
             }
-            return res.status(200).json({
+            return res.status(SuccessCodes.OK).json({
                 success: true,
                 data: airport
             });
@@ -50,7 +51,7 @@ class AirportController {
     async getAll(req, res) {
        try{
          const airports = await airportService.getAll();
-         return res.status(200).json({
+         return res.status(SuccessCodes.OK).json({
              success: true,
              data: airports 
             });     
@@ -71,12 +72,12 @@ class AirportController {
             const data = req.body;
             const updatedAirport = await airportService.update(airportId, data);
             if (!updatedAirport) {
-                return res.status(404).json({
+                return res.status(ClientErrorCodes.NOT_FOUND).json({
                     success: false,
                     message: "Airport not found"
                 });
             }
-            return res.status(200).json({
+            return res.status(SuccessCodes.OK).json({
                 success: true,
                 message: "Airport updated successfully",
                 data: updatedAirport
@@ -95,12 +96,12 @@ class AirportController {
                    const airportId = req.params.id;
                    const isDeleted = await airportService.destroy(airportId);
                      if (!isDeleted) {
-                          return res.status(404).json({
+                          return res.status(ClientErrorCodes.NOT_FOUND).json({
                             success: false,
                             message: "Airport not found"
                           });
                      }
-                    return res.status(200).json({
+                    return res.status(SuccessCodes.OK).json({
                         success: true,
                         message: "Airport deleted successfully"
                     });
