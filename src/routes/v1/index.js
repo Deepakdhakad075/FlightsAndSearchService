@@ -16,7 +16,8 @@ const { FlightMiddleware } = require("../../middlewares/index");
   //Flight routes
   router.post('/flights',FlightMiddleware.validateCreateFlight , flightController.createFlight);
   router.get('/flights', flightController.getFlights);
-
+  router.get('/flight/:id', flightController.get);
+  router.patch('/flight/:id',flightController.updateFlight);
 
   //Airport routes
   router.post('/airports', airportController.create);
